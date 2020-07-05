@@ -15,11 +15,16 @@ class ComposerConfig extends Config
 
     public function getPsr4Name(): string
     {
-        return key($this->getOneConfig('autoload')['psr-4']);
+        return key($this->config['autoload']['psr-4']);
     }
 
     public function getPsr4Source(): string
     {
-        return str_replace('/', '', array_values($this->getOneConfig('autoload')['psr-4'])[0]);
+        return str_replace('/', '', array_values($this->config['autoload']['psr-4'])[0]);
+    }
+
+    public function isAutoloadSet(): bool
+    {
+        return (isset($this->config['autoload']['psr-4']) && $this->config['autoload']['psr-4'] !== []);
     }
 }

@@ -47,7 +47,10 @@ class RequestHandler
         $this->controllers->add(new AuthController);
         $this->controllers->add(new SystemController);
         foreach ($this->classes as $class => $parentClass) {
-            $this->controllers->add(new $class);
+            try {
+                $this->controllers->add(new $class);
+            } catch (Exception $e) {
+            }
         }
     }
 

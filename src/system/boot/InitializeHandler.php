@@ -41,28 +41,55 @@ class InitializeHandler
                     exit;
                 }
             }
+
             $composerConfig = GlobalConfig::getComposerConfig();
+            if (!$composerConfig->isAutoloadSet()) {
+                echo "Please ensure your composer.json has autoload/psr-4 property set.";
+                exit;
+            }
+
             $sc->setSourceClass($composerConfig->getPsr4Name());
-            $sc->setSourcePath($documentRoot . '/' . $composerConfig->getPsr4Source());
+            $sourcePath = $documentRoot . '/' . $composerConfig->getPsr4Source();
+            $firstIntro = $sc->getIntro();
+            if ($firstIntro) {
+                try {
+                    FileUtils::mkDir($sourcePath);
+                    FileUtils::save($sourcePath . '/MyFirstController.php', self::MyFirstController(str_replace('\\', '', $composerConfig->getPsr4Name())));
+                    try {
+                        echo exec('composer dump-autoload -o') . '...</br>';
+                    } catch (Exception $e) {
+                        echo "Autoload dump couldn't be done now, please run 'composer dump-autoload -o' in order to update your classMap, then refresh this screen.";
+                    }
+                } catch (Exception $e) {
+                    echo "Source folder '" . $sourcePath . "' could not be created, please do it manually.";
+                }
+                echo "Setup First Boot Intro is done. Click Refresh to start...";
+                $sc->setIntro(false);
+            }
+            $sc->setSourcePath($sourcePath);
             $sc->setFirstRun(false);
             GlobalConfig::setSystemConfig($sc);
-        }
 
-        if ($sc->getSourcePath() == null | $sc->getSourcePath() == '') {
-            echo "Read configuration failed in setup.json: 'source_path' is not defined.";
-            exit;
+            if ($firstIntro) exit;
+
+            $this->initializers = new InitializerList();
+            $this->classes = GlobalConfig::getAllImplementationsOf(GlobalConfig::getSystemConfig()->getServicePath(), Initializer::class);
+            $this->registerProcesses();
         }
 
         if (!file_exists($sc->getSourcePath())) {
             echo "Read configuration failed in setup.json: 'source_path' was not found.";
             exit;
         }
+    }
 
-        if ($firstRun) {
-            $this->initializers = new InitializerList();
-            $this->classes = GlobalConfig::getAllImplementationsOf(GlobalConfig::getSystemConfig()->getServicePath(), Initializer::class);
-            $this->registerProcesses();
-        }
+    private static function MyFirstController(string $namespace): string
+    {
+        return "<?php\n
+namespace $namespace;\n
+use Spreng\http\Controller;\nuse Spreng\http\HttpResponse;\n
+class MyFirstController extends Controller\n{\n
+public static function home(): HttpResponse\n{\nreturn new HttpResponse(function () {\nreturn '<h2>Hello World!</h2> <p>Congratulations, your application seems to be working :)</p>';\n}, '/');\n}\n}?>\n";
     }
 
     private function registerProcesses()

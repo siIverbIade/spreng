@@ -16,7 +16,7 @@ abstract class Config
 
     public function getOneConfig(string $arg)
     {
-        return $this->config[$arg];
+        return isset($this->config[$arg]) ? $this->config[$arg] : null;
     }
 
     public function getConfig()

@@ -36,6 +36,16 @@ class SystemConfig extends Config
         $this->setOneConfig('first_run', $val);
     }
 
+    public function getIntro(): bool
+    {
+        return $this->getOneConfig('intro');
+    }
+
+    public function setIntro(bool $val)
+    {
+        $this->setOneConfig('intro', $val);
+    }
+
     public function setSourcePath(string $val)
     {
         $this->config['autoloader']['source_path'] = $val;

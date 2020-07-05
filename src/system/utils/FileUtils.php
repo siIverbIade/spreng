@@ -124,11 +124,11 @@ class FileUtils
         if (!file_exists($dirName)) mkdir($dirName);
     }
 
-    public static function save(string $file)
+    public static function save(string $file, $content = '')
     {
         if (!file_exists($file)) {
             $fp = fopen($file, "wb");
-            fwrite($fp, '');
+            fwrite($fp, $content);
             fclose($fp);
         }
     }

@@ -43,7 +43,7 @@ class SprengClasses
             if (self::isInstanceOf($path, $sprengClass)) {
                 $class = FileUtils::fileName($path);
                 $currDir = FileUtils::fileDirName($path);
-                $full = str_replace($initialDir, '', $currDir . "\\" . $class);
+                $full = str_replace($initialDir, '', $currDir . "/" . $class);
                 $srcClass = GlobalConfig::getSystemConfig()->getSourceClass();
                 $full = str_replace('\\\\', '\\', $srcClass . $baseFolder . $full);
                 return [str_replace('\\\\', '\\', str_replace('/', '\\', $full)), $sprengClass];

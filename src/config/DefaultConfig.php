@@ -75,6 +75,7 @@ class DefaultConfig
         ],
         "system" => [
             "first_run" => true,
+            "intro" => true,
             "services_path" => "",
             "log_file" => "syslog/info.log",
             "autoloader" => [

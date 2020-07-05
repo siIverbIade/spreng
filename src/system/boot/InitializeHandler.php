@@ -21,6 +21,11 @@ class InitializeHandler
         $firstRun = $sc->getFirstRun();
         if ($firstRun) {
 
+            if (!file_exists($documentRoot . '/composer.json')) {
+                echo "This is an composer based application but file composer.json is missing in your document root folder '$documentRoot'.";
+                exit;
+            }
+
             $htaccess = dirname(__DIR__, 2) . '/config/resources/.htaccess';
 
             if (!file_exists($documentRoot . '/.htaccess')) {
@@ -36,7 +41,9 @@ class InitializeHandler
                     exit;
                 }
             }
-            $sc->setSourcePath($documentRoot . '/src');
+            $composerConfig = GlobalConfig::getComposerConfig();
+            $sc->setSourceClass($composerConfig->getPsr4Name());
+            $sc->setSourcePath($documentRoot . '/' . $composerConfig->getPsr4Source());
             $sc->setFirstRun(false);
             GlobalConfig::setSystemConfig($sc);
         }

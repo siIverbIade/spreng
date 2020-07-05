@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spreng\config;
 
+use Spreng\config\type\ComposerConfig;
 use Spreng\config\ParseConfig;
 use Spreng\config\type\HttpConfig;
 use Spreng\config\type\ModelConfig;
@@ -27,6 +28,19 @@ class GlobalConfig extends ParseConfig
             $_SESSION['config'][$type] = $config;
         }
         return $config;
+    }
+
+    public static function getComposerConfig(): ComposerConfig
+    {
+        $config = [];
+        if (isset($_SESSION['config']['composer'])) {
+            $config = $_SESSION['config']['composer'];
+        } else {
+            $composer = self::autoLoad();
+            $config = $composer->getConfig();
+            $_SESSION['config']['composer'] = $config;
+        }
+        return $composer;
     }
 
     public static function getConnectionConfig(): ConnectionConfig

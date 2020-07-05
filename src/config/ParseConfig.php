@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spreng\config;
 
 use Exception;
+use Spreng\config\type\ComposerConfig;
 use Spreng\system\files\Json;
 use Spreng\config\type\Config;
 use Spreng\config\type\HttpConfig;
@@ -30,6 +31,18 @@ class ParseConfig
         return $json;
     }
 
+    private static function composer(): Json
+    {
+        $ComposerFile = $_SERVER['DOCUMENT_ROOT'] . '/composer.json';
+        try {
+            $json = new Json($ComposerFile);
+        } catch (Exception $e) {
+            echo " Check if autoload psr-4 property is set in your project.";
+            exit;
+        }
+        return $json;
+    }
+
     private static function cfgTypeClass(string $type): string
     {
         return 'Spreng\config\type\\' . ucfirst($type) . 'Config';
@@ -50,6 +63,22 @@ class ParseConfig
         $defaults = DefaultConfig::config();
 
         $configObj->assets($defaults[$type], isset($global[$type]) ? $global[$type] : $defaults[$type]);
+
+        return $configObj;
+    }
+
+    protected static function autoLoad(): ComposerConfig
+    {
+        $configObj = new ComposerConfig;
+
+        $json = self::composer();
+
+        if (!$json == null) {
+            $json->process();
+            $global = $json->schemaJSON;
+        }
+
+        $configObj->assets($global, $global);
 
         return $configObj;
     }

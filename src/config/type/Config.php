@@ -2,8 +2,6 @@
 
 namespace Spreng\config\type;
 
-use Spreng\system\log\Logger;
-
 /**
  * Config
  */

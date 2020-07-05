@@ -78,11 +78,12 @@ class DefaultConfig
             "services_path" => "",
             "log_file" => "syslog/info.log",
             "autoloader" => [
-                "source_class" => "App\\",
-                "source_path" => "/src"
+                "source_class" => "",
+                "source_path" => ""
             ]
         ]
     ];
+
     public static function config(): array
     {
         return self::$config;

@@ -1,6 +1,6 @@
 {
     "name": "suzano/spreng",
-    "description": "Spring Framework Inspired PHP Development Engine",
+    "description": "Spring Framework Inspired for PHP Development Engine",
     "license": "proprietary",
     "require": {
         "php": "^7.2",

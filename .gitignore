@@ -1,0 +1,4 @@
+.vscode/settings.json
+vendor/
+src/model/forms/compilation_cache/
+composer.lock

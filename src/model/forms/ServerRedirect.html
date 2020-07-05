@@ -1,0 +1,16 @@
+<form id="myForm" $action$ $method$ $enctype$>
+    @@ for key,value in inputs @@
+    <input type="hidden" name="$key$" value="$value$">
+    @@ endfor @@
+    @@ if errormsg == '' and panicButton @@
+    <button type="submit">->>Clique aqui se a página não atualizou </button>
+    @@ endif @@
+</form>
+
+@@ if errormsg == '' @@
+<script type="text/javascript">
+    document.getElementById('myForm').submit();
+</script>
+@@ else @@
+$errormsg$
+@@ endif @@

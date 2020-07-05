@@ -1,7 +1,7 @@
 {
     "name": "suzano/spreng",
     "description": "Spring Framework Inspired for PHP Development Engine",
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": "^7.2",
         "twig/twig": "^3.0",

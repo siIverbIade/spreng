@@ -1,5 +1,5 @@
 # PHP Spreng
-JAVA's Spring Framework Inspired Engine for PHP Development 
+PHP Development engine inspired by JAVA's Spring Framework  
 
 
 ![Build Status](https://api.travis-ci.org/siIverbIade/spreng.svg?branch=master&status=unknown)

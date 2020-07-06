@@ -2,8 +2,12 @@
 JAVA's Spring Framework Inspired Engine for PHP Development 
 
 
-[![Build Status](https://api.travis-ci.org/siIverbIade/spreng.svg?branch=master&status=unknown)](https://travis-ci.org/github/siIverbIade/spreng)
-
+![Build Status](https://api.travis-ci.org/siIverbIade/spreng.svg?branch=master&status=unknown)
+![Issues](https://img.shields.io/github/issues/siIverbIade/spreng)
+![Forks](https://img.shields.io/github/forks/siIverbIade/spreng)
+![Stars](https://img.shields.io/github/stars/siIverbIade/spreng)
+![License](https://img.shields.io/github/license/siIverbIade/spreng)
+![Version](https://img.shields.io/badge/version-v1.0.2--beta-blueviolet)
  ### Requirements:
  - PHP 7.2
  - [Apache](https://httpd.apache.org/) 2.4.xx

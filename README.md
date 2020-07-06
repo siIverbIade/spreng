@@ -8,7 +8,7 @@ JAVA's Spring Framework Inspired Engine for PHP Development
 ![Stars](https://img.shields.io/github/stars/siIverbIade/spreng)
 ![Version](https://img.shields.io/badge/version-v1.0.2--beta-blueviolet)
 ![Licence](https://img.shields.io/github/license/siIverbIade/spreng)
-
+[![Coverage Status](https://coveralls.io/repos/github/siIverbIade/spreng/badge.svg?branch=master)](https://coveralls.io/github/siIverbIade/spreng?branch=master)
 
  ### Requirements:
  - PHP 7.2

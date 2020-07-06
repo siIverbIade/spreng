@@ -14,7 +14,7 @@ JAVA's Spring Framework Inspired Engine for PHP Development
  - PHP 7.2
  - [Apache](https://httpd.apache.org/) 2.4.xx
  - [Composer](https://getcomposer.org/download/) version 1.10.x
- - psr-4 compliance (your composer.json should look like this)
+ - psr-4 compliant (your composer.json should look like this)
  ```json
   {
     ...

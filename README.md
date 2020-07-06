@@ -18,7 +18,7 @@ JAVA's Spring Framework Inspired Engine for PHP Development
     ...
     "require" : {
       "suzano/spreng" : "^1.0.0-beta"
-    }
+    },
     "autoload" : {
       "psr-4" : {
         "AppName" : "folder/"

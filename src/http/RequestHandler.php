@@ -91,7 +91,7 @@ class RequestHandler
                     } elseif ($response instanceof ModelAndView) {
                         $this->resolveRequest($this->handleMvc($response));
                     } elseif ($response instanceof HttpResponse) {
-                        $this->resolveRequest(new Resolver($response->response()(), $response->httpcode(), $response->headers()));
+                        $this->resolveRequest($this->handleResponse($response));
                     }
                 }
             }
@@ -103,6 +103,22 @@ class RequestHandler
     private static function arg(int $n, array $arg)
     {
         return isset($arg[$n]) ? $arg[$n] : '';
+    }
+
+    private function handleResponse(HttpResponse $response)
+    {
+        $url = '';
+        try {
+            $echo = $response->response()();
+            $url = $response->redirectUrl();
+        } catch (Exception $e) {
+            Logger::error($e->getMessage() . ' -> ' .  $e->getTraceAsString());
+            $this->session::throwHttpCode(500)();
+        }
+
+        if ($url) $this->redirectRequest($url);
+
+        return new Resolver($echo, $response->httpcode(), $response->headers());
     }
 
     private function handleRest(ResponseBody $response)

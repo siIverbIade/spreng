@@ -6,7 +6,7 @@ PHP Development engine inspired by JAVA's Spring Framework
 ![Issues](https://img.shields.io/github/issues/siIverbIade/spreng)
 ![Forks](https://img.shields.io/github/forks/siIverbIade/spreng)
 ![Stars](https://img.shields.io/github/stars/siIverbIade/spreng)
-![Version](https://img.shields.io/badge/version-v1.0.2--beta-blueviolet)
+![Version](https://img.shields.io/badge/version-v1.0.3--beta-blueviolet)
 ![Licence](https://img.shields.io/github/license/siIverbIade/spreng)
 [![Coverage Status](https://coveralls.io/repos/github/siIverbIade/spreng/badge.svg?branch=master)](https://coveralls.io/github/siIverbIade/spreng?branch=master)
 

@@ -2,13 +2,13 @@
 PHP Development engine inspired by JAVA's Spring Framework  
 
 
-![Build Status](https://api.travis-ci.org/siIverbIade/spreng.svg?branch=master&status=unknown)
+<!---![Build Status](https://api.travis-ci.org/siIverbIade/spreng.svg?branch=master&status=unknown) wait to publish until have ci properly configured-->
 ![Issues](https://img.shields.io/github/issues/siIverbIade/spreng)
 ![Forks](https://img.shields.io/github/forks/siIverbIade/spreng)
 ![Stars](https://img.shields.io/github/stars/siIverbIade/spreng)
 ![Version](https://img.shields.io/badge/pre_release-v1.0.3--beta-blueviolet)
 ![Licence](https://img.shields.io/github/license/siIverbIade/spreng)
-[![Coverage Status](https://coveralls.io/repos/github/siIverbIade/spreng/badge.svg?branch=master)](https://coveralls.io/github/siIverbIade/spreng?branch=master)
+<!---[![Coverage Status](https://coveralls.io/repos/github/siIverbIade/spreng/badge.svg?branch=master)](https://coveralls.io/github/siIverbIade/spreng?branch=master)  wait to publish until have analytics properly configured-->
 
  ### Requirements:
  - PHP 7.2

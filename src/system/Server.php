@@ -21,4 +21,9 @@ class Server
     {
         return $_SERVER['REQUEST_URI'];
     }
+
+    public static function getName()
+    {
+        return $_SERVER["SERVER_NAME"];
+    }
 }

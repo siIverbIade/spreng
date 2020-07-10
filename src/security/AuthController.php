@@ -8,6 +8,7 @@ use Spreng\http\ModelAndView;
 use Spreng\http\ResponseBody;
 use Spreng\system\log\Logger;
 use Spreng\config\GlobalConfig;
+use Spreng\http\ServerRedirect;
 use Spreng\connection\AuthConnPool;
 
 /**
@@ -23,8 +24,8 @@ class AuthController extends Controller
 
             if (!$secConf->isEnabled() | SessionUser::getSessionToken() !== '') {
                 $auth = new Autentication($hs);
-                $authResult = $auth->try(new AuthConnPool());
-                if ($authResult->isAuth()) {
+                $tryResult = $auth->try(new AuthConnPool());
+                if ($tryResult->isAuth()) {
                     HttpSession::echoRedirect($secConf->startFullUrl())();
                 }
             }
@@ -32,9 +33,9 @@ class AuthController extends Controller
             $l = (new LoginHandler)->getLoginModel();
             $l->username = $hs::username();
             $l->remember = $hs::remember() == '' ? '' : 'checked';
-            $hs::clear();
+
             $l->auth_url = "." . $secConf->authUrl();
-            $l->servermsg = isset($authResult) ? $authResult->getAuthMessage() : '';
+            $l->servermsg = $hs::name('auth_message');
             return $l;
         }, $secConf->loginUrl());
     }
@@ -45,10 +46,12 @@ class AuthController extends Controller
 
         return new ResponseBody(function () use ($secConf, $hs) {
             $tryResult = (new Autentication($hs))->try(new AuthConnPool);
-            if ($tryResult) {
-                $hs::echoRedirect($secConf->startUrl())();
+            if ($tryResult->isAuth()) {
+                //$hs::echoRedirect($secConf->startUrl())();
+                return new ServerRedirect('', $secConf->startUrl(), [$tryResult->getAuthMessage()]);
             } else {
-                $hs::echoRedirect($secConf->loginUrl())();
+                //$hs::echoRedirect($secConf->loginUrl())();
+                return new ServerRedirect('', $secConf->loginUrl(), [$tryResult->getAuthMessage()]);
             }
         }, $secConf->authUrl(), 'POST');
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\security;
+namespace Spreng\security;
 
 class AuthResult
 {

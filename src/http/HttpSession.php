@@ -55,7 +55,7 @@ class HttpSession
     public static function rootUrl(): string
     {
         //erro quando servidor é na raiz, ajustar para $_SERVER['REQUEST_URI'])[0]
-        return explode('/', $_SERVER['REQUEST_URI'])[0];
+        return explode('/', Server::getRequestUri())[0];
     }
 
     public static function fullUrl()
@@ -111,7 +111,7 @@ class HttpSession
 
     public static function clientIp()
     {
-        return $_ENV['REMOTE_ADDR'];
+        return $_SERVER['REMOTE_ADDR'];
     }
 
     public static function postData(string $url, array $data = [], bool $follow = false)

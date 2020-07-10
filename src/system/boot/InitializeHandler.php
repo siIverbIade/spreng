@@ -23,7 +23,7 @@ class InitializeHandler
         $documentRoot = Server::getDocumentRoot();
         $sc = GlobalConfig::getSystemConfig();
 
-        if ($prodEnv) FileUtils::overwrite($_SERVER['DOCUMENT_ROOT'] . '/.env', GlobalConfig::global(true)->getAsEnv());
+        if ($prodEnv) FileUtils::overwrite(Server::getDocumentRoot() . '/.env', GlobalConfig::global(true)->getAsEnv());
 
         $firstRun = $sc->getFirstRun();
         if ($firstRun) {

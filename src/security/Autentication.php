@@ -2,10 +2,10 @@
 
 namespace Spreng\security;
 
-use Spreng\security\AuthResult;
 use Spreng\http\HttpSession;
 use Spreng\system\log\Logger;
 use Spreng\config\GlobalConfig;
+use Spreng\security\AuthResult;
 use Spreng\security\SessionUser;
 use Spreng\connection\Connection;
 
@@ -43,7 +43,7 @@ class Autentication
 
     public function try(Connection $conn): AuthResult
     {
-        if (!$this->secConf->isEnabled()) return new AuthResult(true, '');;
+        if (!$this->secConf->isEnabled()) return new AuthResult(true, '');
 
         $userCredentials = $this->getUserCredentials();
 

@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace Spreng\config;
 
 use Exception;
-use Spreng\config\type\ComposerConfig;
+use Spreng\system\Server;
 use Spreng\system\files\Json;
 use Spreng\config\type\Config;
 use Spreng\config\type\HttpConfig;
+use Spreng\system\utils\FileUtils;
 use Spreng\config\type\ModelConfig;
 use Spreng\config\type\SystemConfig;
+use Spreng\config\type\ComposerConfig;
 use Spreng\config\type\SecurityConfig;
 use Spreng\config\type\ConnectionConfig;
-use Spreng\system\utils\FileUtils;
 
 class ParseConfig
 {
     public static function global(bool $process = false): Json
     {
-        $ApplicationSetup = $_SERVER['DOCUMENT_ROOT'] . '/application.json';
+        $ApplicationSetup = Server::getDocumentRoot() . '/application.json';
         try {
             $json = new Json($ApplicationSetup);
         } catch (Exception $e) {
@@ -34,7 +35,7 @@ class ParseConfig
 
     private static function composer(bool $process = false): Json
     {
-        $ComposerFile = $_SERVER['DOCUMENT_ROOT'] . '/composer.json';
+        $ComposerFile = Server::getDocumentRoot() . '/composer.json';
         try {
             $json = new Json($ComposerFile);
         } catch (Exception $e) {

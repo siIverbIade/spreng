@@ -13,11 +13,12 @@ use Spreng\config\type\ModelConfig;
 use Spreng\config\type\SystemConfig;
 use Spreng\config\type\SecurityConfig;
 use Spreng\config\type\ConnectionConfig;
+use Spreng\system\log\Logger;
 use Spreng\system\utils\FileUtils;
 
 class ParseConfig
 {
-    private static function global(): Json
+    public static function global(bool $process = false): Json
     {
         $ApplicationSetup = $_SERVER['DOCUMENT_ROOT'] . '/application.json';
         try {
@@ -28,10 +29,11 @@ class ParseConfig
             $json->schemaJSON = DefaultConfig::config();
             $json->writeSchemaJSON();
         }
+        if ($process) $json->process();
         return $json;
     }
 
-    private static function composer(): Json
+    private static function composer(bool $process = false): Json
     {
         $ComposerFile = $_SERVER['DOCUMENT_ROOT'] . '/composer.json';
         try {
@@ -40,6 +42,7 @@ class ParseConfig
             echo " Check if autoload psr-4 property is set in your project.";
             exit;
         }
+        if ($process) $json->process();
         return $json;
     }
 

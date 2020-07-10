@@ -99,7 +99,6 @@ abstract class Fragment  extends iNject implements Template
 
     public function show()
     {
-        session_reset();
         return $this->set(get_object_vars($this));
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Spreng\http;
 
+use Spreng\system\Server;
+
 /**
  * HttpSession
  */
@@ -13,8 +15,8 @@ class HttpSession
 
     public function __construct()
     {
-        $this->urlParse = parse_url($_SERVER['REQUEST_URI']);
-        self::initSession();
+        $documentRoot = Server::getDocumentRoot();
+        $this->urlParse = parse_url($documentRoot);
         $GLOBALS['httpcode'] = 0;
         $GLOBALS['redirect'] = '';
     }
@@ -94,34 +96,35 @@ class HttpSession
 
     public static function username()
     {
+
         if (isset($_POST['username'])) {
-            $_SESSION['auth']['username'] = $_POST['username'];
+            $_ENV['auth_username'] = $_POST['username'];
         }
 
-        return isset($_SESSION['auth']['username']) ? $_SESSION['auth']['username'] : false;
+        return isset($_ENV['auth_username']) ? $_ENV['auth_username'] : false;
     }
 
     public static function password()
     {
         if (isset($_POST['password'])) {
-            $_SESSION['auth']['password'] = $_POST['password'];
+            $_ENV['auth_password'] = $_POST['password'];
         }
 
-        return isset($_SESSION['auth']['password']) ? $_SESSION['auth']['password'] : false;
+        return isset($_ENV['auth_password']) ? $_ENV['auth_password'] : false;
     }
 
     public static function remember(): bool
     {
         if (isset($_POST['remember'])) {
-            $_SESSION['auth']['remember'] = $_POST['remember'];
+            $_ENV['auth_remember'] = $_POST['remember'];
         }
 
-        return isset($_SESSION['auth']['remember']) ? (bool) $_SESSION['auth']['remember'] : false;
+        return isset($_ENV['auth_remember']) ? (bool) $_ENV['auth_remember'] : false;
     }
 
     public static function clientIp()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        return $_ENV['REMOTE_ADDR'];
     }
 
     public static function postData(string $url, array $data = [], bool $follow = false)

@@ -2,3 +2,4 @@
 vendor/
 src/model/forms/compilation_cache/
 composer.lock
+.env

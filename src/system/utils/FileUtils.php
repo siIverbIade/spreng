@@ -133,6 +133,13 @@ class FileUtils
         }
     }
 
+    public static function overwrite(string $file, $content = '')
+    {
+        $fp = fopen($file, "wb");
+        fwrite($fp, $content);
+        fclose($fp);
+    }
+
     public static function compare(string $fn1, string $fn2): bool
     {
         define('READ_LEN', 4096);

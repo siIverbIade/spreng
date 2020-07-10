@@ -3,6 +3,9 @@
 namespace Spreng\system\boot;
 
 use Exception;
+use Dotenv\Dotenv;
+use Spreng\system\Server;
+use Spreng\system\log\Logger;
 use Spreng\config\GlobalConfig;
 use Spreng\system\utils\FileUtils;
 use Spreng\system\collections\InitializerList;
@@ -15,9 +18,13 @@ class InitializeHandler
     private $initializers;
     private $classes;
 
-    public function __construct(string $documentRoot)
+    public function __construct(bool $prodEnv = false)
     {
+        $documentRoot = Server::getDocumentRoot();
         $sc = GlobalConfig::getSystemConfig();
+
+        if ($prodEnv) FileUtils::overwrite($_SERVER['DOCUMENT_ROOT'] . '/.env', GlobalConfig::global(true)->getAsEnv());
+
         $firstRun = $sc->getFirstRun();
         if ($firstRun) {
 
@@ -51,6 +58,7 @@ class InitializeHandler
             $sc->setSourceClass($composerConfig->getPsr4Name());
             $sourcePath = $documentRoot . '/' . $composerConfig->getPsr4Source();
             $firstIntro = $sc->getIntro();
+
             if ($firstIntro) {
                 try {
                     FileUtils::mkDir($sourcePath);
@@ -76,11 +84,18 @@ class InitializeHandler
             $this->classes = GlobalConfig::getAllImplementationsOf(GlobalConfig::getSystemConfig()->getServicePath(), Initializer::class);
             $this->registerProcesses();
         }
-
+        self::startEnvironment($documentRoot);
         if (!file_exists($sc->getSourcePath())) {
             echo "Read configuration failed in setup.json: 'source_path' was not found.";
             exit;
         }
+    }
+
+    private static function startEnvironment(string $configFile)
+    {
+        $dotenv = Dotenv::createMutable($configFile);
+        $dotenv->load();
+        Logger::debug($_ENV['APPLICATION'], true);
     }
 
     private static function MyFirstController(string $namespace): string

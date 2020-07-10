@@ -14,11 +14,10 @@ use Spreng\system\boot\InitializeHandler;
  */
 abstract class MainApp
 {
-    public static function init()
+    public static function init(bool $prodEnv = false)
     {
-        (new InitializeHandler($_SERVER['DOCUMENT_ROOT']))->run();
+        (new InitializeHandler($prodEnv))->run();
         (new ServiceHandler)->run();
-        $session = new HttpSession();
-        (new RequestHandler($session))->processRequest();
+        (new RequestHandler(new HttpSession))->processRequest();
     }
 }

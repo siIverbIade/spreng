@@ -50,6 +50,7 @@ class RequestHandler
             try {
                 $this->controllers->add(new $class);
             } catch (Exception $e) {
+                Logger::error($e->getMessage());
             }
         }
     }
@@ -96,6 +97,7 @@ class RequestHandler
                 }
             }
         }
+
         if ($this->auth->getUserCredentials() == null) $this->redirectRequest(GlobalConfig::getSecurityConfig()->loginFullUrl());
         $this->resolveRequest(new Resolver('', 404, $response->headers()));
     }

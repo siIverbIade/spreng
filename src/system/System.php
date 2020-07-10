@@ -9,17 +9,17 @@ class System
 {
     public static function Message(): string
     {
-        return isset($_SESSION['system']['message']) ? $_SESSION['system']['message'] : '';
+        return isset($_ENV['system_message']) ? $_ENV['system_message'] : '';
     }
 
     public static function setMessage(string $msg)
     {
-        $_SESSION['system']['message'] = $msg;
+        $_ENV['system_message'] = $msg;
     }
 
     public static function throwMessage(string $msg)
     {
-        $_SESSION['system']['message'] = $msg;
+        $_ENV['system_message'] = $msg;
         header('Location : ./alert');
         die();
     }

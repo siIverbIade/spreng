@@ -140,11 +140,11 @@ class Autentication
 
     public static function getAuthMessage()
     {
-        return isset($_SESSION['authmessage']) ? $_SESSION['authmessage'] : '';
+        return isset($_ENV['authmessage']) ? $_ENV['authmessage'] : '';
     }
 
     public static function setAuthMessage(string $message)
     {
-        $_SESSION['authmessage'] = $message;
+        $_ENV['authmessage'] = $message;
     }
 }

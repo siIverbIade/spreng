@@ -43,6 +43,11 @@ class Json
         return fwrite(fopen($this->schemaFilePath, "w"), json_encode($this->schemaJSON, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES));
     }
 
+    public function getAsEnv()
+    {
+        return 'APPLICATION=' . str_replace('"', '\\"', json_encode($this->schemaJSON));
+    }
+
     public function getSchemaString(): string
     {
         return $this->schemaJSONstring;

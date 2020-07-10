@@ -45,7 +45,7 @@ class Json
 
     public function getAsEnv()
     {
-        return 'APPLICATION=' . str_replace('"', '\\"', json_encode($this->schemaJSON));
+        return 'APPLICATION="' . str_replace('"', '\"', str_replace('\\', '\\\\', json_encode($this->schemaJSON, JSON_UNESCAPED_SLASHES))) . '"';
     }
 
     public function getSchemaString(): string

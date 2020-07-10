@@ -16,4 +16,9 @@ class Server
     {
         return $_SERVER['DOCUMENT_ROOT'];
     }
+
+    public static function getRequestUri()
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
 }

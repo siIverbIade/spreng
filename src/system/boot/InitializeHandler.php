@@ -95,7 +95,7 @@ class InitializeHandler
     {
         $dotenv = Dotenv::createMutable($configFile);
         $dotenv->load();
-        Logger::debug($_ENV['APPLICATION'], true);
+        //Logger::debug($_ENV['APPLICATION'], true);
     }
 
     private static function MyFirstController(string $namespace): string

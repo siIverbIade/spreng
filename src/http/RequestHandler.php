@@ -70,8 +70,8 @@ class RequestHandler
                 $response = $ctl->{$name}(self::arg(0, $arg), self::arg(1, $arg), self::arg(2, $arg));
                 $fullUrl = $this->fullUrl($ctl->getRootUrl() . $response->url());
 
-                //Logger::console_log("full = " . $fullUrl . "</br>");
-                //Logger::console_log("root = " . $this->session->rootRequest() . "</br>");
+                //Logger::debug("full = " . $fullUrl . "</br>");
+                //Logger::debug("root = " . $this->session->rootRequest() . "</br>");
 
                 if ($fullUrl == $this->session->rootRequest()) {
 

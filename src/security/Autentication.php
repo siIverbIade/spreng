@@ -2,6 +2,7 @@
 
 namespace Spreng\security;
 
+use Spreng\security\AuthResult;
 use Spreng\http\HttpSession;
 use Spreng\system\log\Logger;
 use Spreng\config\GlobalConfig;
@@ -40,18 +41,16 @@ class Autentication
             return [null];
     }
 
-    public function try(Connection $conn): bool
+    public function try(Connection $conn): AuthResult
     {
-        if (!$this->secConf->isEnabled()) return true;
+        if (!$this->secConf->isEnabled()) return new AuthResult(true, '');;
 
-        self::setAuthMessage('');
         $userCredentials = $this->getUserCredentials();
 
         if (!$userCredentials == null) {
             if ($userCredentials->ip !== $this->session::clientIp()) {
-                self::setAuthMessage('IP não autorizado!');
                 SessionUser::clearCredentials();
-                return false;
+                return new AuthResult(false, 'IP não autorizado!');
             }
             $username = SessionUser::getUserName();
             $password = SessionUser::getUserPassword();
@@ -63,15 +62,13 @@ class Autentication
         }
 
         if ($username == '') {
-            self::setAuthMessage('Digite o nome de Usuário');
             SessionUser::clearCredentials();
-            return false;
+            return new AuthResult(false, 'Digite o nome de Usuário');
         }
 
         if ($password == '') {
-            self::setAuthMessage('Digite a senha');
             SessionUser::clearCredentials();
-            return false;
+            return new AuthResult(false, 'Digite a senha');
         }
 
         $jwtConfig = $this->secConf->jwtPayload();
@@ -83,22 +80,19 @@ class Autentication
         $user = $conn::findOne($userTable, ' BINARY ' . $jwtConfig['username'] . ' = ? ', [$username]);
 
         if ($user == null) {
-            self::setAuthMessage('Usuário não existe!');
             SessionUser::clearCredentials();
-            return false;
+            return new AuthResult(false, 'Usuário não existe!');
         }
 
         if (!$userCredentials == null) {
             if (!password_verify($user[$jwtConfig['password']], $password)) {
-                self::setAuthMessage('Credenciais Expiradas!');
                 SessionUser::clearCredentials();
-                return false;
+                return new AuthResult(false, 'Credenciais Expiradas!');
             }
         } else {
             if (!password_verify($password, $user[$jwtConfig['password']])) {
-                self::setAuthMessage('Credenciais Inválidas!');
                 SessionUser::clearCredentials();
-                return false;
+                return new AuthResult(false, 'Credenciais Inválidas!');
             }
         }
 
@@ -130,21 +124,11 @@ class Autentication
 
         new SessionUser($payload, $rememberMe);
         Logger::info("User $username has logged in - IP: " . $this->session::clientIp());
-        return true;
+        return new AuthResult(true, '');
     }
 
     public function sessionUser(): SessionUser
     {
         return new SessionUser;
-    }
-
-    public static function getAuthMessage()
-    {
-        return isset($_ENV['authmessage']) ? $_ENV['authmessage'] : '';
-    }
-
-    public static function setAuthMessage(string $message)
-    {
-        $_ENV['authmessage'] = $message;
     }
 }

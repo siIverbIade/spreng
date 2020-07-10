@@ -15,8 +15,8 @@ class HttpSession
 
     public function __construct()
     {
-        $documentRoot = Server::getDocumentRoot();
-        $this->urlParse = parse_url($documentRoot);
+        $requestUri = Server::getRequestUri();
+        $this->urlParse = parse_url($requestUri);
         $GLOBALS['httpcode'] = 0;
         $GLOBALS['redirect'] = '';
     }
@@ -96,30 +96,17 @@ class HttpSession
 
     public static function username()
     {
-
-        if (isset($_POST['username'])) {
-            $_ENV['auth_username'] = $_POST['username'];
-        }
-
-        return isset($_ENV['auth_username']) ? $_ENV['auth_username'] : false;
+        return isset($_POST['username']) ? $_POST['username'] : false;
     }
 
     public static function password()
     {
-        if (isset($_POST['password'])) {
-            $_ENV['auth_password'] = $_POST['password'];
-        }
-
-        return isset($_ENV['auth_password']) ? $_ENV['auth_password'] : false;
+        return isset($_POST['password']) ? $_POST['password'] : false;
     }
 
     public static function remember(): bool
     {
-        if (isset($_POST['remember'])) {
-            $_ENV['auth_remember'] = $_POST['remember'];
-        }
-
-        return isset($_ENV['auth_remember']) ? (bool) $_ENV['auth_remember'] : false;
+        return isset($_POST['remember']) ? (bool) $_POST['remember'] : false;
     }
 
     public static function clientIp()

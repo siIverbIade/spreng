@@ -13,7 +13,6 @@ use Spreng\config\type\ModelConfig;
 use Spreng\config\type\SystemConfig;
 use Spreng\config\type\SecurityConfig;
 use Spreng\config\type\ConnectionConfig;
-use Spreng\system\log\Logger;
 use Spreng\system\utils\FileUtils;
 
 class ParseConfig

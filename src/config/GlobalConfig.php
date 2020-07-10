@@ -18,14 +18,19 @@ use Spreng\config\type\ConnectionConfig;
  */
 class GlobalConfig extends ParseConfig
 {
+
+    public static function getJsonEnv(): array
+    {
+        return json_decode($_ENV["APPLICATION"], true);
+    }
+
     public static function getConfig(string $type): array
     {
         $config = [];
         if (isset($_ENV["APPLICATION"])) {
-            $config = $_ENV["APPLICATION"];
+            $config = self::getJsonEnv()[$type];
         } else {
             $config = self::loadConfig($type)->getConfig();
-            $_ENV["APPLICATION"] = $config;
         }
         return $config;
     }
@@ -38,7 +43,7 @@ class GlobalConfig extends ParseConfig
         } else {
             $composer = self::autoLoad();
             $config = $composer->getConfig();
-            $_ENV['config_composer'] = $config;
+            $_ENV['COMPOSER'] = $config;
         }
         return $composer;
     }
@@ -79,37 +84,31 @@ class GlobalConfig extends ParseConfig
     public static function setConnectionConfig(ConnectionConfig $config)
     {
         parent::setConnectionConfig($config);
-        $_ENV['config_connection'] = $config->getConfig();
     }
 
     public static function setHttpConfig(HttpConfig $config)
     {
         parent::setHttpConfig($config);
-        $_ENV['config_http'] = $config->getConfig();
     }
 
     public static function setModelConfig(ModelConfig $config)
     {
         parent::setModelConfig($config);
-        $_ENV['config_model'] = $config->getConfig();
     }
 
     public static function setSecurityConfig(SecurityConfig $config)
     {
         parent::setSecurityConfig($config);
-        $_ENV['config_security'] = $config->getConfig();
     }
 
     public static function setSystemConfig(SystemConfig $config)
     {
         parent::setSystemConfig($config);
-        $_ENV['config_system'] = $config->getConfig();
     }
 
     public static function saveConfig(string $type, array $config)
     {
         parent::saveConfig($type, $config);
-        $_ENV["config_$type"] = $config;
     }
 
     public static function mergeConfig(string $type, array $config)
@@ -117,7 +116,6 @@ class GlobalConfig extends ParseConfig
         $currentConfig = self::getConfig($type);
         $newConfig = array_replace_recursive($currentConfig, $config);
         parent::saveConfig($type, $newConfig);
-        $_ENV["config_$type"] = $newConfig;
     }
 
     public static function clearAll()

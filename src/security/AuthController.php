@@ -3,12 +3,12 @@
 namespace Spreng\security;
 
 use Spreng\http\Controller;
-use Spreng\http\ModelAndView;
-use Spreng\config\GlobalConfig;
-use Spreng\connection\AuthConnPool;
 use Spreng\http\HttpSession;
+use Spreng\http\ModelAndView;
 use Spreng\http\ResponseBody;
 use Spreng\system\log\Logger;
+use Spreng\config\GlobalConfig;
+use Spreng\connection\AuthConnPool;
 
 /**
  * AuthController
@@ -23,16 +23,18 @@ class AuthController extends Controller
 
             if (!$secConf->isEnabled() | SessionUser::getSessionToken() !== '') {
                 $auth = new Autentication($hs);
-                if ($auth->try(new AuthConnPool())) {
+                $authResult = $auth->try(new AuthConnPool());
+                if ($authResult->isAuth()) {
                     HttpSession::echoRedirect($secConf->startFullUrl())();
                 }
             }
+
             $l = (new LoginHandler)->getLoginModel();
             $l->username = $hs::username();
             $l->remember = $hs::remember() == '' ? '' : 'checked';
             $hs::clear();
             $l->auth_url = "." . $secConf->authUrl();
-            $l->servermsg = Autentication::getAuthMessage();
+            $l->servermsg = isset($authResult) ? $authResult->getAuthMessage() : '';
             return $l;
         }, $secConf->loginUrl());
     }
